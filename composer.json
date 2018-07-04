@@ -1,0 +1,35 @@
+{
+  "name": "Project name",
+  "description": "Your project description",
+  "keywords": ["Your keyword", "Another keyword"],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Roman Dykyi",
+      "email": "mr.dukuy@gmail.com",
+      "role": "Creator / Main Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "ext-pdo": "*",
+    "ext-pdo_sqlite": "*",
+    "bernard/bernard": "^1.0@DEV",
+    "doctrine/dbal": "~2.5",
+    "filp/whoops": "^2.1",
+    "prooph/psb-bernard-producer": "^2.0",
+    "symfony/var-dumper": "^4.1",
+    "vlucas/phpdotenv": "^2.4",
+    "monolog/monolog": "^1.23",
+    "symfony/http-foundation": "^4.1",
+    "nikic/fast-route": "^1.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Building\\": "src/"
+    }
+  },
+  "scripts": {
+    "serve": "php -S 0.0.0.0:8080 -t public/"
+  }
+}
