@@ -1,12 +1,12 @@
 <?php
 
-namespace Building\Infrastructure;
+namespace Dykyi\Infrastructure;
 
-use Building\Infrastructure\Controllers\DefaultController;
+use Dykyi\Infrastructure\Controllers\DefaultController;
 
 /**
  * Class Routers
- * @package Building\Infrastructure
+ * @package Dykyi\Infrastructure
  */
 class Routers
 {

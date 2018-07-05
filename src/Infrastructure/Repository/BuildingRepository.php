@@ -1,9 +1,9 @@
 <?php
 
-namespace Building\Infrastructure\Repository;
+namespace Dykyi\Infrastructure\Repository;
 
-use Building\Domain\Aggregate\Building;
-use Building\Domain\Repository\BuildingRepositoryInterface;
+use Dykyi\Domain\Aggregate\Building;
+use Dykyi\Domain\Repository\BuildingRepositoryInterface;
 use Prooph\EventStore\Aggregate\AggregateRepository;
 use Rhumsaa\Uuid\Uuid;
 

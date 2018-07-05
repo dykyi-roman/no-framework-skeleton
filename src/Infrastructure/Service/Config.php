@@ -1,10 +1,10 @@
 <?php
 
-namespace Building\Infrastructure\Service;
+namespace Dykyi\Infrastructure\Service;
 
 /**
  * Class Config
- * @package Building\Infrastructure\Service
+ * @package Dykyi\Infrastructure\Service
  */
 class Config
 {

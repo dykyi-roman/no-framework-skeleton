@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Building\Domain\Aggregate;
+namespace Dykyi\Domain\Aggregate;
 
-use Building\Domain\DomainEvent\NewBuildingWasRegistered;
+use Dykyi\Domain\DomainEvent\NewBuildingWasRegistered;
 use Prooph\EventSourcing\AggregateRoot;
 use Rhumsaa\Uuid\Uuid;
 

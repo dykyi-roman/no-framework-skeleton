@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Building\Domain\Command;
+namespace Dykyi\Domain\Command;
 
 use Prooph\Common\Messaging\Command;
 

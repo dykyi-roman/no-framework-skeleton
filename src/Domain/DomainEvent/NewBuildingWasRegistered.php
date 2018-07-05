@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Building\Domain\DomainEvent;
+namespace Dykyi\Domain\DomainEvent;
 
 use Prooph\EventSourcing\AggregateChanged;
 

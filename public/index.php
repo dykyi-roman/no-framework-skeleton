@@ -1,12 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace Building\App;
+namespace Dykyi\App;
 
-use Building\Infrastructure\Kernal;
-use Building\Infrastructure\Service\Config;
-use Building\Infrastructure\Service\Containers;
+use Dykyi\Infrastructure\Kernal;
+use Dykyi\Infrastructure\Service\Config;
+use Dykyi\Infrastructure\Service\Containers;
 use Symfony\Component\HttpFoundation\Request;
-use Zend\ServiceManager\ServiceManager;
 use Whoops\Run as Whoops;
 
 \call_user_func(function () {
@@ -14,7 +13,6 @@ use Whoops\Run as Whoops;
     ini_set('display_errors', '1');
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    /** @var ServiceManager $sm */
     $sm = Containers::init();
 
     /** @var array $config */
@@ -22,6 +20,6 @@ use Whoops\Run as Whoops;
     $config['app.debug'] ? $sm->get(Whoops::class) : null;
 
     $request = Request::createFromGlobals();
-    $response = Kernal::boot($request);
+    $response = Kernal::handle($request);
     $response->send();
 });

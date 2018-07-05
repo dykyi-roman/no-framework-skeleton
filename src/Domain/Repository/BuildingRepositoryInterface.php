@@ -1,8 +1,8 @@
 <?php
 
-namespace Building\Domain\Repository;
+namespace Dykyi\Domain\Repository;
 
-use Building\Domain\Aggregate\Building;
+use Dykyi\Domain\Aggregate\Building;
 use Rhumsaa\Uuid\Uuid;
 
 interface BuildingRepositoryInterface

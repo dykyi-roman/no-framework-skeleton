@@ -1,21 +1,36 @@
 <?php
 
-namespace Building\Infrastructure\Controllers;
+namespace Dykyi\Infrastructure\Controllers;
 
+use Dykyi\Infrastructure\Service\Containers;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class DefaultController
+ * @package Dykyi\Infrastructure\Controllers
+ */
 class DefaultController
 {
-    private $response;
+    /** @var Request  */
+    private $request;
 
-    public function __construct(Response $response)
+    /** @var Containers */
+    private $containers;
+
+    /**
+     * DefaultController constructor.
+     * @param Request $request
+     * @param Containers $containers
+     */
+    public function __construct(Request $request, Containers $containers)
     {
-        $this->response = $response;
+        $this->containers = $containers;
+        $this->request = $request;
     }
 
     public function index()
     {
-        $this->response->setContent('test');
-        return $this->response;
+        return Response::create(__CLASS__);
     }
 }

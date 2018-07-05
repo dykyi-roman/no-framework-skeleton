@@ -1,20 +1,21 @@
 <?php
 
-namespace Building\Infrastructure;
+namespace Dykyi\Infrastructure;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Kernal
- * @package Building\Infrastructure
+ * @package Dykyi\Infrastructure
  */
 class Kernal
 {
     /**
      * @return Response
+     * @throws \Auryn\InjectionException
      */
-    public static function boot(Request $request): Response
+    public static function handle(Request $request): Response
     {
         $routeDefinitionCallback = function (\FastRoute\RouteCollector $r) {
             $routes = Routers::get();
@@ -34,11 +35,8 @@ class Kernal
                 $className = $routeInfo[1][0];
                 $method = $routeInfo[1][1];
                 $vars = $routeInfo[2];
-
-                $class = new $className(new Response());
-                $response = $class->$method($vars);
-
-                return $response;
+                $class = (new \Auryn\Injector())->make($className);
+                return $class->$method($vars);
         }
 
         return Response::create('Undefined Error', 500);

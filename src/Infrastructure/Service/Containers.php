@@ -1,27 +1,29 @@
 <?php
 
-namespace Building\Infrastructure\Service;
+namespace Dykyi\Infrastructure\Service;
 
 use Dotenv\Dotenv;
+use Monolog\Logger;
 use Interop\Container\ContainerInterface;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 use Prooph\ServiceBus\CommandBus;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Zend\Expressive\Container\WhoopsFactory;
 use Zend\ServiceManager\ServiceManager;
 use Whoops\Run as Whoops;
 
 /**
  * Class Containers
- * @package Building\Infrastructure\Service
+ * @package Dykyi\Infrastructure\Service
  */
 class Containers
 {
-    public static function init()
+    /** @var ServiceManager null */
+    private $handles;
+
+    public function __construct()
     {
-        return new ServiceManager([
+        $this->handles = new ServiceManager([
             'factories' => [
                 Config::class => function (): array {
                     $envConfig = (new Dotenv(__DIR__ . '/../../..'))->load();
@@ -58,5 +60,19 @@ class Containers
                 },
             ]
         ]);
+    }
+
+    public static function init()
+    {
+        return new self();
+    }
+
+    public function get(string $name)
+    {
+        if (null === $this->handles){
+            $this->handles = new self();
+        }
+
+        return $this->handles->get($name);
     }
 }
