@@ -3,7 +3,7 @@
 namespace Dykyi\Application\Controllers;
 
 use Mustache_Engine;
-use Dykyi\Infrastructure\Containers;
+use Dykyi\Application\Containers;
 use Dykyi\Infrastructure\Template\Renderer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +30,9 @@ class DefaultController
         $this->engine = $containers->get(Mustache_Engine::class);
     }
 
+    /**
+     * @return Response
+     */
     public function index()
     {
         $html = $this->engine->render('default/index', ['name' => 'test']);

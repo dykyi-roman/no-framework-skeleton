@@ -4,7 +4,7 @@ namespace Dykyi\App;
 
 use Dotenv\Dotenv;
 use Dykyi\Application\Kernal;
-use Dykyi\Infrastructure\Containers;
+use Dykyi\Application\Containers;
 use Symfony\Component\HttpFoundation\Request;
 use Whoops\Run as Whoops;
 

@@ -17,12 +17,14 @@
     "symfony/http-foundation": "^4.1",
     "nikic/fast-route": "^1.3",
     "rdlowrey/auryn": "^1.4",
-    "bernard/bernard": "^1.0@DEV",
     "doctrine/orm": "^2.6",
     "symfony/event-dispatcher": "^4.1",
     "zendframework/zend-servicemanager": "^3.3",
-    "prooph/service-bus": "^6.2",
-    "mustache/mustache": "^2.12"
+    "mustache/mustache": "^2.12",
+    "simple-bus/command-bus": "^1.0",
+    "simple-bus/message-bus": "^3.0",
+    "guzzlehttp/guzzle": "^6.3",
+    "tedivm/stash": "^0.14.2"
   },
   "require-dev": {
     "vlucas/phpdotenv": "^2.4",
