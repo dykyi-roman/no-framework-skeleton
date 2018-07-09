@@ -1,6 +1,6 @@
 <?php
 
-namespace Dykyi\Infrastructure;
+namespace Dykyi\Application;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

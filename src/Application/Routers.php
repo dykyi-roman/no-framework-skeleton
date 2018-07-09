@@ -1,8 +1,8 @@
 <?php
 
-namespace Dykyi\Infrastructure;
+namespace Dykyi\Application;
 
-use Dykyi\Infrastructure\Controllers\DefaultController;
+use Dykyi\Application\Controllers\DefaultController;
 
 /**
  * Class Routers

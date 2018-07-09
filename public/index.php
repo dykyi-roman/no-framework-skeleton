@@ -2,9 +2,9 @@
 
 namespace Dykyi\App;
 
-use Dykyi\Infrastructure\Kernal;
-use Dykyi\Infrastructure\Service\Config;
-use Dykyi\Infrastructure\Service\Containers;
+use Dotenv\Dotenv;
+use Dykyi\Application\Kernal;
+use Dykyi\Infrastructure\Containers;
 use Symfony\Component\HttpFoundation\Request;
 use Whoops\Run as Whoops;
 
@@ -13,11 +13,19 @@ use Whoops\Run as Whoops;
     ini_set('display_errors', '1');
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    $sm = Containers::init();
+    if (!isset($_SERVER['APP_ENV'])) {
+        if (!class_exists(Dotenv::class)) {
+            throw new \RuntimeException('APP_ENV environment variable is not defined');
+        }
+        (new Dotenv(__DIR__.'/../'))->load();
+    }
 
-    /** @var array $config */
-    $config = $sm->get(Config::class);
-    $config['app.debug'] ? $sm->get(Whoops::class) : null;
+    $env = $_SERVER['APP_ENV'] ?? 'dev';
+    $debug = $_SERVER['APP_DEBUG'] ?? ('prod' !== $env);
+
+    if ($debug) {
+        Containers::init()->get(Whoops::class);
+    }
 
     $request = Request::createFromGlobals();
     $response = Kernal::handle($request);

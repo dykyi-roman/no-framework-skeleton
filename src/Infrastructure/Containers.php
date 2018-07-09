@@ -1,12 +1,14 @@
 <?php
 
-namespace Dykyi\Infrastructure\Service;
+namespace Dykyi\Infrastructure;
 
 use Dotenv\Dotenv;
+use Dykyi\Infrastructure\Service\Config;
 use Monolog\Logger;
 use Interop\Container\ContainerInterface;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\StreamHandler;
+use Mustache_Engine;
 use Prooph\ServiceBus\CommandBus;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Zend\ServiceManager\ServiceManager;
@@ -26,15 +28,13 @@ class Containers
         $this->handles = new ServiceManager([
             'factories' => [
                 Config::class => function (): array {
-                    $envConfig = (new Dotenv(__DIR__ . '/../../..'))->load();
+                    $envConfig = (new Dotenv(__DIR__ . '/../../'))->load();
 
                     return Config::parse($envConfig);
                 },
 
                 CommandBus::class => function (): CommandBus {
-                    $commandBus = new CommandBus();
-
-                    return $commandBus;
+                    return new CommandBus();
                 },
 
                 EventDispatcher::class => function (): EventDispatcher {
@@ -58,11 +58,22 @@ class Containers
 
                     return $logger;
                 },
+                Mustache_Engine::class => function(){
+                   $loader = new \Mustache_Loader_FilesystemLoader(
+                       dirname(__DIR__) . '/Application/View',
+                       ['extension' => '.html',]
+                   );
+
+                   $engine = new Mustache_Engine();
+                   $engine->setLoader($loader);
+
+                   return $engine;
+                },
             ]
         ]);
     }
 
-    public static function init()
+    public static function init(): Containers
     {
         return new self();
     }

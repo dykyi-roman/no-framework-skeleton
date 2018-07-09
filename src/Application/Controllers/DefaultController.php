@@ -1,8 +1,10 @@
 <?php
 
-namespace Dykyi\Infrastructure\Controllers;
+namespace Dykyi\Application\Controllers;
 
-use Dykyi\Infrastructure\Service\Containers;
+use Mustache_Engine;
+use Dykyi\Infrastructure\Containers;
+use Dykyi\Infrastructure\Template\Renderer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,25 +14,25 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DefaultController
 {
-    /** @var Request  */
+    /** @var Request */
     private $request;
 
     /** @var Containers */
     private $containers;
 
-    /**
-     * DefaultController constructor.
-     * @param Request $request
-     * @param Containers $containers
-     */
+    /** @var Renderer */
+    private $engine;
+
     public function __construct(Request $request, Containers $containers)
     {
         $this->containers = $containers;
         $this->request = $request;
+        $this->engine = $containers->get(Mustache_Engine::class);
     }
 
     public function index()
     {
-        return Response::create(__CLASS__);
+        $html = $this->engine->render('default/index', ['name' => 'test']);
+        return Response::create($html);
     }
 }
