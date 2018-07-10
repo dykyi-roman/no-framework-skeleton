@@ -65,6 +65,26 @@ class Containers
                     return EntityManager::create($connectionParams, $config);
                 },
 
+                MessageBus::class => function (): MessageBus {
+                    $bus = new MessageBusSupportingMiddleware();
+                    $bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
+                    $commandHandlerMap = new CallableMap(
+                        [
+//                            SomeActionMessage::class => SomeHandler::class,
+                        ],
+                        new ServiceLocatorAwareCallableResolver(function ($serviceId) {
+                            $handler = new $serviceId();
+                            //TODO: some logic here
+                            return $handler;
+                        })
+                    );
+                    $commandHandlerResolver = new NameBasedMessageHandlerResolver(
+                        new ClassBasedNameResolver(), $commandHandlerMap
+                    );
+                    $bus->appendMiddleware(new DelegatesToMessageHandlerMiddleware($commandHandlerResolver));
+                    return $bus;
+                },
+
                 CommandBus::class => function (): MessageBus {
                     $bus = new MessageBusSupportingMiddleware();
                     $bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
