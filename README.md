@@ -1,6 +1,6 @@
 # Basic Application Skeleton
 
-This is an example application
+You can take this skeleton with basic components for you start a project. Enjoy
 
 ## Requirements
 
