@@ -2,6 +2,8 @@
 
 namespace Dykyi\Application;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 use Dotenv\Dotenv;
 use Dykyi\Infrastructure\Service\Config;
 use Monolog\Logger;
@@ -49,6 +51,18 @@ class Containers
 
                 'Cache' => function () {
                     return new Cache(new \Stash\Driver\Ephemeral);
+                },
+
+                EntityManager::class => function(){
+                    $config = Setup::createAnnotationMetadataConfiguration([__DIR__], getenv('app.debug'));
+                    $connectionParams = [
+                        'dbname' => getenv('bd.dbname'),
+                        'user' => getenv('db.user'),
+                        'password' => getenv('db.password'),
+                        'host' => getenv('db.host'),
+                        'driver' => 'pdo_mysql',
+                    ];
+                    return EntityManager::create($connectionParams, $config);
                 },
 
                 CommandBus::class => function (): MessageBus {

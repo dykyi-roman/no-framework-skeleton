@@ -5,7 +5,6 @@ namespace Dykyi\Application\Controllers;
 use Mustache_Engine;
 use Dykyi\Application\Containers;
 use Dykyi\Infrastructure\Template\Renderer;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,19 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DefaultController
 {
-    /** @var Request */
-    private $request;
-
-    /** @var Containers */
-    private $containers;
-
     /** @var Renderer */
     private $engine;
 
-    public function __construct(Request $request, Containers $containers)
+    public function __construct(Containers $containers)
     {
-        $this->containers = $containers;
-        $this->request = $request;
         $this->engine = $containers->get(Mustache_Engine::class);
     }
 
@@ -35,7 +26,7 @@ class DefaultController
      */
     public function index()
     {
-        $html = $this->engine->render('default/index', ['name' => 'test']);
+        $html = $this->engine->render('default/index', ['time' => date('h:i:s')]);
         return Response::create($html);
     }
 }
