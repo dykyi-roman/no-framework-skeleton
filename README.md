@@ -21,6 +21,7 @@ To run this application, you will need:
  * Service manager
  * Doctrine ORM
  * Command bus
+ * Query bus
  * Event dispatcher
  * Logging for PHP
  * HTTP client
