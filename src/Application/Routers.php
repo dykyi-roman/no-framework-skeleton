@@ -6,6 +6,7 @@ use Dykyi\Application\Controllers\DefaultController;
 
 /**
  * Class Routers
+ *
  * @package Dykyi\Infrastructure
  */
 class Routers

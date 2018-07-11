@@ -28,16 +28,21 @@ use Stash\Pool as Cache;
 
 /**
  * Class Containers
- * @package Dykyi\Infrastructure\Service
+ *
+ * @package Dykyi\Application
  */
 class Containers
 {
-    /** @var ServiceManager null */
+    /**
+     *
+     * @var ServiceManager null
+     */
     private $handles;
 
     public function __construct()
     {
-        $this->handles = new ServiceManager([
+        $this->handles = new ServiceManager(
+            [
             'factories' => [
                 Config::class => function (): array {
                     $envConfig = (new Dotenv(__DIR__ . '/../site/'))->load();
@@ -45,7 +50,7 @@ class Containers
                     return Config::parse($envConfig);
                 },
 
-                'Guzzle' => function(){
+                'Guzzle' => function () {
                     return new GuzzleClient();
                 },
 
@@ -53,7 +58,7 @@ class Containers
                     return new Cache(new \Stash\Driver\Ephemeral);
                 },
 
-                EntityManager::class => function(){
+                EntityManager::class => function () {
                     $config = Setup::createAnnotationMetadataConfiguration([__DIR__], getenv('app.debug'));
                     $connectionParams = [
                         'dbname' => getenv('bd.dbname'),
@@ -70,13 +75,15 @@ class Containers
                     $bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
                     $commandHandlerMap = new CallableMap(
                         [
-//                            SomeActionMessage::class => SomeHandler::class,
+                        //                            SomeActionMessage::class => SomeHandler::class,
                         ],
-                        new ServiceLocatorAwareCallableResolver(function ($serviceId) {
-                            $handler = new $serviceId();
-                            //TODO: some logic here
-                            return $handler;
-                        })
+                        new ServiceLocatorAwareCallableResolver(
+                            function ($serviceId) {
+                                $handler = new $serviceId();
+                                //TODO: some logic here
+                                return $handler;
+                            }
+                        )
                     );
                     $commandHandlerResolver = new NameBasedMessageHandlerResolver(
                         new ClassBasedNameResolver(), $commandHandlerMap
@@ -90,13 +97,15 @@ class Containers
                     $bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
                     $commandHandlerMap = new CallableMap(
                         [
-//                            SomeActionCommand::class => SomeHandler::class,
+                        //                            SomeActionCommand::class => SomeHandler::class,
                         ],
-                        new ServiceLocatorAwareCallableResolver(function ($serviceId) {
-                            $handler = new $serviceId();
-                            //TODO: some logic here
-                            return $handler;
-                        })
+                        new ServiceLocatorAwareCallableResolver(
+                            function ($serviceId) {
+                                $handler = new $serviceId();
+                                //TODO: some logic here
+                                return $handler;
+                            }
+                        )
                     );
                     $commandHandlerResolver = new NameBasedMessageHandlerResolver(
                         new ClassBasedNameResolver(), $commandHandlerMap
@@ -138,7 +147,8 @@ class Containers
                     return $engine;
                 },
             ]
-        ]);
+            ]
+        );
     }
 
     public static function init(): Containers
@@ -148,10 +158,11 @@ class Containers
 
     public function get(string $name)
     {
-        if (null === $this->handles) {
+        if (!$this->handles instanceof ServiceManager) {
             $this->handles = new self();
         }
 
         return $this->handles->get($name);
     }
+
 }

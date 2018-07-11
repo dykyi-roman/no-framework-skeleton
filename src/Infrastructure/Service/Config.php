@@ -4,12 +4,16 @@ namespace Dykyi\Infrastructure\Service;
 
 /**
  * Class Config
+ *
  * @package Dykyi\Infrastructure\Service
  */
 class Config
 {
     /**
-     * @param array $envConfigs
+     * Parse function
+     *
+     * @param array $envConfigs Have All config params
+     *
      * @return array
      */
     public static function parse(array $envConfigs): array

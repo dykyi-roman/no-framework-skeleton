@@ -7,12 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Kernal
+ *
  * @package Dykyi\Infrastructure
  */
 class Kernal
 {
     /**
+     *
      * @return Response
+     *
      * @throws \Auryn\InjectionException
      */
     public static function handle(Request $request): Response

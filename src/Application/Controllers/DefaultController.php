@@ -9,11 +9,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class DefaultController
+ *
  * @package Dykyi\Infrastructure\Controllers
  */
 class DefaultController
 {
-    /** @var Renderer */
+    /**
+     *
+     * @var Renderer
+     */
     private $engine;
 
     public function __construct(Containers $containers)
@@ -22,6 +26,7 @@ class DefaultController
     }
 
     /**
+     *
      * @return Response
      */
     public function index()

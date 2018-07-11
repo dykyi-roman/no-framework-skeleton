@@ -27,6 +27,11 @@ To run this application, you will need:
  * HTTP client
  * Error handler framework for PHP  
 
+## test coverage
+ * PhpUnit
+ * Phan
+ * Codesniffer
+
 ## Install
  + run composer install
  + configuration .env file
