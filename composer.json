@@ -1,7 +1,10 @@
 {
   "name": "Project name",
   "description": "Your project description",
-  "keywords": ["Your keyword", "Another keyword"],
+  "keywords": [
+    "Your keyword",
+    "Another keyword"
+  ],
   "license": "MIT",
   "authors": [
     {
@@ -45,6 +48,9 @@
     }
   },
   "scripts": {
-    "serve": "php -S 0.0.0.0:8080 -t public/"
+    "serve": "php -S 0.0.0.0:8080 -t public/",
+    "post-install-cmd": [
+        "php -r \"copy('.env.example', '.env');\""
+    ]
   }
 }
