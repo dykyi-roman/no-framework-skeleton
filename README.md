@@ -27,6 +27,10 @@ To run this application, you will need:
  * HTTP client
  * Error handler framework for PHP  
 
+## Security
+
+According to security best practices, .keyfile should remain outside of the document root (not web accessible) but should be readable by the web server user (or executing user).
+
 ## Test coverage
  * PhpUnit
  * Phan
