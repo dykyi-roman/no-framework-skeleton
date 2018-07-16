@@ -2,6 +2,7 @@
 
 namespace Dykyi\Application\Controllers;
 
+use Doctrine\ORM\EntityManager;
 use Mustache_Engine;
 use Dykyi\Application\Containers;
 use Dykyi\Infrastructure\Template\Renderer;

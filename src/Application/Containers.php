@@ -5,7 +5,6 @@ namespace Dykyi\Application;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Dotenv\Dotenv;
-use Dykyi\Infrastructure\Service\Config;
 use Monolog\Logger;
 use Interop\Container\ContainerInterface;
 use Monolog\Handler\FirePHPHandler;
@@ -44,10 +43,22 @@ class Containers
         $this->handles = new ServiceManager(
             [
             'factories' => [
-                Config::class => function (): array {
-                    $envConfig = (new Dotenv(__DIR__ . '/../site/'))->load();
+                'Config' => function (): array {
+                    $envConfig = (new Dotenv(__DIR__ . '/../../'))->load();
 
-                    return Config::parse($envConfig);
+                    $keys = [];
+                    foreach ($envConfig as $item) {
+                        $elements = explode('=', $item);
+                        $keys[$elements[0]] = $elements[1];
+                    }
+                    return $keys;
+                },
+
+                'Security' => function (): array {
+                    $keyfile = __DIR__. '/../../.keyfile';
+                    $parser = new \Psecio\SecureDotenv\Parser($keyfile, __DIR__ . '/../../.env');
+
+                    return $parser->getContent();
                 },
 
                 'Guzzle' => function () {
@@ -58,15 +69,17 @@ class Containers
                     return new Cache(new \Stash\Driver\Ephemeral);
                 },
 
-                EntityManager::class => function () {
-                    $config = Setup::createAnnotationMetadataConfiguration([__DIR__], getenv('app.debug'));
+                EntityManager::class => function (ContainerInterface $container) {
+                    $secyrity = $container->get('Security');
                     $connectionParams = [
-                        'dbname' => getenv('bd.dbname'),
-                        'user' => getenv('db.user'),
-                        'password' => getenv('db.password'),
-                        'host' => getenv('db.host'),
+                        'dbname' => $secyrity['bd_dbname'],
+                        'user' => $secyrity['db_user'],
+                        'password' => $secyrity['db_password'],
+                        'host' => $secyrity['db_host'],
                         'driver' => 'pdo_mysql',
                     ];
+
+                    $config = Setup::createAnnotationMetadataConfiguration([__DIR__], false);
                     return EntityManager::create($connectionParams, $config);
                 },
 
@@ -127,10 +140,10 @@ class Containers
                 },
 
                 Logger::class => function (ContainerInterface $container) {
-                    $config = $container->get(Config::class);
+                    $config = $container->get('Config');
 
                     $logger = new Logger('app');
-                    $logger->pushHandler(new StreamHandler(__DIR__ . $config['app.log_path'], Logger::DEBUG));
+                    $logger->pushHandler(new StreamHandler(__DIR__ . $config['log_path'], Logger::DEBUG));
                     $logger->pushHandler(new FirePHPHandler());
 
                     return $logger;
