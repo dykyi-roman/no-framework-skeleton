@@ -5,30 +5,32 @@ namespace Dykyi\Infrastructure\Template;
 use Mustache_Engine;
 
 /**
- * Class MustacheRenderer
+ * Class MustacheTemplate
  *
  * @package Dykyi\Infrastructure\Template
  */
-class MustacheRenderer implements Renderer
+class MustacheTemplate implements TemplateInterface
 {
     /**
-     *
      * @var Mustache_Engine
      */
     private $engine;
 
-    /**
-     * MustacheRenderer constructor.
-     *
-     * @param Mustache_Engine $engine
-     */
-    public function __construct(Mustache_Engine $engine)
+    public function __construct()
     {
+        $this->engine = new Mustache_Engine();
+    }
+
+    public function configuration(string $path)
+    {
+        $loader = new \Mustache_Loader_FilesystemLoader($path, ['extension' => '.html']);
+        $engine = new Mustache_Engine();
+        $engine->setLoader($loader);
+
         $this->engine = $engine;
     }
 
     /**
-     *
      * @inheritdoc
      */
     public function render($template, array $data = []) : string

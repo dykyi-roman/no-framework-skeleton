@@ -2,8 +2,8 @@
 
 namespace Dykyi\Application\Controllers;
 
-use Doctrine\ORM\EntityManager;
-use Mustache_Engine;
+use Dykyi\Infrastructure\Template\MustacheRenderer;
+use Dykyi\Infrastructure\Template\MustacheTemplate;
 use Dykyi\Application\Containers;
 use Dykyi\Infrastructure\Template\Renderer;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,15 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DefaultController
 {
-    /**
-     *
-     * @var Renderer
-     */
     private $engine;
 
     public function __construct(Containers $containers)
     {
-        $this->engine = $containers->get(Mustache_Engine::class);
+        $this->engine = $containers->get('Template');
     }
 
     /**

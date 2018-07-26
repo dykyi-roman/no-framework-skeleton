@@ -5,6 +5,9 @@ namespace Dykyi\Application;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 use Dotenv\Dotenv;
+use Dykyi\Infrastructure\Template\MustacheRenderer;
+use Dykyi\Infrastructure\Template\MustacheTemplate;
+use Dykyi\Infrastructure\Template\TemplateFactory;
 use Monolog\Logger;
 use Interop\Container\ContainerInterface;
 use Monolog\Handler\FirePHPHandler;
@@ -148,16 +151,12 @@ class Containers
 
                     return $logger;
                 },
-                Mustache_Engine::class => function () {
-                    $loader = new \Mustache_Loader_FilesystemLoader(
-                        dirname(__DIR__) . '/Application/View',
-                        ['extension' => '.html',]
-                    );
+                'Template' => function () {
 
-                    $engine = new Mustache_Engine();
-                    $engine->setLoader($loader);
+                    $template = new MustacheTemplate();
+                    $template->configuration(dirname(__DIR__) . '/Application/View');
 
-                    return $engine;
+                    return $template;
                 },
             ]
             ]
