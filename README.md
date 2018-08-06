@@ -41,6 +41,11 @@ According to security best practices, .keyfile should remain outside of the docu
  + configuration .env file
  + run composer install
  
+## Alternative
+
+* https://github.com/PatrickLouys/no-framework-tutorial
+* https://github.com/igniphp/framework
+
 ## Author
 [Dykyi Roman](https://www.linkedin.com/in/roman-dykyi-43428543/), e-mail: [mr.dukuy@gmail.com](mailto:mr.dukuy@gmail.com)
 
