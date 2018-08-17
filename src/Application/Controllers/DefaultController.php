@@ -2,10 +2,7 @@
 
 namespace Dykyi\Application\Controllers;
 
-use Dykyi\Infrastructure\Template\MustacheRenderer;
-use Dykyi\Infrastructure\Template\MustacheTemplate;
 use Dykyi\Application\Containers;
-use Dykyi\Infrastructure\Template\Renderer;
 use Symfony\Component\HttpFoundation\Response;
 
 /**

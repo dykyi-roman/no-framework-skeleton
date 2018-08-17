@@ -9,7 +9,7 @@ interface TemplateInterface
      * @param array $data
      * @return string
      */
-    public function render($template, array $data = []) : string;
+    public function render($template, array $data = []): string;
 
     /**
      * @param TemplateInterface $template

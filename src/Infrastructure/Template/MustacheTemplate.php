@@ -33,7 +33,7 @@ class MustacheTemplate implements TemplateInterface
     /**
      * @inheritdoc
      */
-    public function render($template, array $data = []) : string
+    public function render($template, array $data = []): string
     {
         return $this->engine->render($template, $data);
     }
