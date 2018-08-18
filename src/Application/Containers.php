@@ -26,6 +26,9 @@ use Stash\Pool as Cache;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Whoops\Run as Whoops;
 use Zend\ServiceManager\ServiceManager;
+use Ajgl\SimpleBus\Message\Bus\CatchReturnMessageBus;
+use Ajgl\SimpleBus\Message\Bus\Middleware\CatchReturnMessageBusSupportingMiddleware;
+use Ajgl\SimpleBus\Message\Handler\DelegatesToMessageHandlerAndCatchReturnMiddleware;
 
 /**
  * Class Containers
@@ -85,26 +88,27 @@ class Containers
                         return EntityManager::create($connectionParams, $config);
                     },
 
-                    MessageBus::class => function (): MessageBus {
-                        $bus = new MessageBusSupportingMiddleware();
-                        $bus->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
+                    CatchReturnMessageBus::class => function (): CatchReturnMessageBusSupportingMiddleware {
+                        $query = new CatchReturnMessageBusSupportingMiddleware();
+                        $query->appendMiddleware(new FinishesHandlingMessageBeforeHandlingNext());
                         $commandHandlerMap = new CallableMap(
                             [
-                                //                            SomeActionMessage::class => SomeHandler::class,
+                                ProductListQuery::class => ProductListQueryHandler::class,
                             ],
                             new ServiceLocatorAwareCallableResolver(
                                 function ($serviceId) {
-                                    $handler = new $serviceId();
+                                    $handler = (new \Auryn\Injector())->make($serviceId);
                                     //TODO: some logic here
                                     return $handler;
                                 }
                             )
                         );
-                        $commandHandlerResolver = new NameBasedMessageHandlerResolver(
+                        $queryHandlerResolver = new NameBasedMessageHandlerResolver(
                             new ClassBasedNameResolver(), $commandHandlerMap
                         );
-                        $bus->appendMiddleware(new DelegatesToMessageHandlerMiddleware($commandHandlerResolver));
-                        return $bus;
+
+                        $query->appendMiddleware(new DelegatesToMessageHandlerAndCatchReturnMiddleware($queryHandlerResolver));
+                        return $query;
                     },
 
                     CommandBus::class => function (): MessageBus {
@@ -116,7 +120,7 @@ class Containers
                             ],
                             new ServiceLocatorAwareCallableResolver(
                                 function ($serviceId) {
-                                    $handler = new $serviceId();
+                                    $handler = (new \Auryn\Injector())->make($serviceId);
                                     //TODO: some logic here
                                     return $handler;
                                 }
