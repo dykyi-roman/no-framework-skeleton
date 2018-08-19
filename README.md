@@ -33,6 +33,8 @@ According to security best practices, .keyfile should remain outside of the docu
 
 ## Test coverage
  * PhpUnit
+ 
+## Code Style 
  * Phan
  * Codesniffer
 
